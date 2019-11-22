@@ -1,21 +1,5 @@
 # MixProtobuffs
 
-**TODO: Add description**
+mix archive.install
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `mix_protobuffs` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:mix_protobuffs, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/mix_protobuffs](https://hexdocs.pm/mix_protobuffs).
-
+mix do deps.get, compile, compile.protobuffs && mix archive.install --force && MIX_ARCHIVES=~/.kiex/mix/archives/elixir-1.9.1/ mix archive.install --force
