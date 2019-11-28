@@ -24,7 +24,8 @@ defmodule Mix.Tasks.Compile.Protobuffs do
         :ok =
           :protobuffs_compile.scan_file(String.to_charlist(proto), [
             {:output_include_dir, String.to_charlist(output_include_dir)},
-            {:output_ebin_dir, String.to_charlist(output_ebin_dir)}
+            {:output_ebin_dir, String.to_charlist(output_ebin_dir)},
+            {:compile_flags, [:debug_info]}
           ])
       end
 
