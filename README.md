@@ -7,17 +7,3 @@ defp deps do
   ]
 end
 ```
-
-Or:
-
-```
-mix archive.install
-```
-
-Or:
-
-```
-mix do deps.get, compile, compile.protobuffs \
-    && mix archive.install --force \
-    && MIX_ARCHIVES=~/.kiex/mix/archives/elixir-1.9.1/ mix archive.install --force
-```
