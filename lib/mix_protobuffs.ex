@@ -4,7 +4,7 @@ defmodule Mix.Tasks.Compile.Protobuffs do
   @recursive true
 
   @impl true
-  def run(_opts) do
+  def run(_args) do
     Mix.Task.run("loadpaths")
     Mix.Project.build_structure()
 
@@ -20,13 +20,15 @@ defmodule Mix.Tasks.Compile.Protobuffs do
       output_include = Path.join(output_include_dir, name <> "_pb.hrl")
       output_beam = Path.join(output_ebin_dir, name <> ".beam")
 
+      opts = [
+        {:output_include_dir, String.to_charlist(output_include_dir)},
+        {:output_ebin_dir, String.to_charlist(output_ebin_dir)},
+        {:compile_flags, [:debug_info]}
+      ]
+
       if Mix.Utils.stale?([proto], [output_include, output_beam]) do
-        :ok =
-          :protobuffs_compile.scan_file(String.to_charlist(proto), [
-            {:output_include_dir, String.to_charlist(output_include_dir)},
-            {:output_ebin_dir, String.to_charlist(output_ebin_dir)},
-            {:compile_flags, [:debug_info]}
-          ])
+        :ok = :protobuffs_compile.scan_file(String.to_charlist(proto), opts)
+        :protobuffs_compile.generate_source(String.to_charlist(proto), opts)
       end
 
       descriptor = Path.rootname(proto) <> "_desc.pb"
