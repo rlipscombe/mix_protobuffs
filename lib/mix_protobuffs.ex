@@ -1,6 +1,25 @@
 defmodule Mix.Tasks.Compile.Protobuffs do
   use Mix.Task
 
+  @shortdoc "Compiles protocol buffers"
+
+  @moduledoc """
+  Compiles protocol buffers.
+
+  Looks for `.proto` files in the Elixir and Erlang source directories, and
+  in the `proto` directory.
+
+  Generates `{name}_pb.hrl` files in the `_build/.../include` directory,
+  and `{name}_pb.beam` files in the `_build/.../ebin` directory.
+
+  Generates `{name}_desc.pb` files in the same directory as the `.proto` file.
+
+  Supports the `--force` flag.
+
+  The `--output-pb-source` flag causes `{name}_pb.erl` to be written to
+  the `_build/.../src` directory.
+  """
+
   @recursive true
 
   @impl true
@@ -21,7 +40,7 @@ defmodule Mix.Tasks.Compile.Protobuffs do
     for proto <- protos do
       name = proto |> Path.basename() |> Path.rootname()
       output_include = Path.join(output_include_dir, name <> "_pb.hrl")
-      output_beam = Path.join(output_ebin_dir, name <> ".beam")
+      output_beam = Path.join(output_ebin_dir, name <> "_pb.beam")
       output_src = Path.join(output_src_dir, name <> "_pb.erl")
 
       protobuffs_opts = [
