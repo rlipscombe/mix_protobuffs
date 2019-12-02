@@ -24,3 +24,5 @@ mix_protobuffs-*.tar
 
 .elixir_ls/
 include/*_pb.hrl
+empty_pb.erl
+proto/empty_desc.pb
