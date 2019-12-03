@@ -1,5 +1,5 @@
 %{
   "gpb": {:hex, :gpb, "4.10.6", "b3a63111c914ddbf74b9c7cf813f7ba4cc26f8a8a630b6a418202119add146b4", [:make, :rebar], [], "hexpm"},
   "meck": {:hex, :meck, "0.8.13", "ffedb39f99b0b99703b8601c6f17c7f76313ee12de6b646e671e3188401f7866", [:rebar3], [], "hexpm"},
-  "protobuffs": {:hex, :protobuffs, "0.8.4", "d38ca5f7380d8477c274680273372011890f8d0037c0d7e7db5c0207b89a4e0b", [:make, :rebar], [{:meck, "~> 0.8.4", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
+  "protobuffs": {:git, "https://github.com/basho/erlang_protobuffs", "43c549e6ccd4524245190a906bb4344039bd2995", [tag: "0.9.1"]},
 }

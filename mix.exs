@@ -23,8 +23,8 @@ defmodule MixProtobuffs.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-      {:protobuffs, "~> 0.8.4"},
-      {:meck, "~> 0.8", runtime: false}
+      {:protobuffs, git: "https://github.com/basho/erlang_protobuffs", tag: "0.9.1"},
+      {:meck, "~> 0.8.13", override: true, runtime: false}
     ]
   end
 end
