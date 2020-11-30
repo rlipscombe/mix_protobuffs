@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Compile.Protobuffs do
-  use Mix.Task
+  use Mix.Task.Compiler
 
   @shortdoc "Compiles protocol buffers"
 
@@ -33,9 +33,7 @@ defmodule Mix.Tasks.Compile.Protobuffs do
     output_src_dir = Path.join(Path.dirname(output_ebin_dir), "src")
     File.mkdir_p!(output_src_dir)
 
-    config = Mix.Project.config()
-    dirs = config[:elixirc_paths] ++ config[:erlc_paths] ++ ["proto"]
-    protos = Mix.Utils.extract_files(dirs, "*.proto")
+    protos = find_protos()
 
     for proto <- protos do
       name = proto |> Path.basename() |> Path.rootname()
@@ -66,5 +64,46 @@ defmodule Mix.Tasks.Compile.Protobuffs do
     end
 
     :ok
+  end
+
+  @impl true
+  def clean() do
+    Mix.Task.run("loadpaths")
+
+    output_include_dir = "include"
+    output_ebin_dir = Mix.Project.compile_path()
+    output_src_dir = Path.join(Path.dirname(output_ebin_dir), "src")
+
+    protos = find_protos()
+
+    for proto <- protos do
+      name = proto |> Path.basename() |> Path.rootname()
+      rm_file_if_exists!(Path.join(output_include_dir, name <> "_pb.hrl"))
+      rm_file_if_exists!(Path.join(output_ebin_dir, name <> "_pb.beam"))
+      rm_file_if_exists!(Path.join(output_src_dir, name <> "_pb.erl"))
+      rm_file_if_exists!(Path.rootname(proto) <> "_desc.pb")
+    end
+
+    :ok
+  end
+
+  defp find_protos() do
+    config = Mix.Project.config()
+    dirs = config[:elixirc_paths] ++ config[:erlc_paths] ++ ["proto"]
+    Mix.Utils.extract_files(dirs, "*.proto")
+  end
+
+  defp rm_file_if_exists!(path) do
+    try do
+      File.rm(path)
+    rescue
+      e in File.Error ->
+        case e.reason do
+          :enoent ->
+            :ok
+          _other ->
+            reraise e, __STACKTRACE__
+        end
+    end
   end
 end
